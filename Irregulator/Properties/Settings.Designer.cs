@@ -190,5 +190,17 @@ namespace Irregulator.Properties {
                 this["DoOther"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BulletsPlus {
+            get {
+                return ((bool)(this["BulletsPlus"]));
+            }
+            set {
+                this["BulletsPlus"] = value;
+            }
+        }
     }
 }

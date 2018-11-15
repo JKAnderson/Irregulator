@@ -18,12 +18,12 @@ namespace Irregulator
         }
 
         public void Randomize(Dictionary<string, PARAM64> paramDict,
-            bool doArmor, bool doWeapons, bool doRings, bool doGoods, bool doSpells, bool doBullets, bool doHumans, bool doOthers)
+            bool doArmor, bool doWeapons, bool doRings, bool doGoods, bool doSpells, bool doBullets, bool bulletsPlus, bool doHumans, bool doOthers)
         {
             if (doBullets)
             {
                 PARAM64 param = paramDict["Bullet"];
-                RandomizeAll(param.Rows);
+                RandomizeAll(param.Rows, bulletsPlus);
             }
 
             if (doRings)
@@ -132,11 +132,20 @@ namespace Irregulator
         private static byte[] ammoCats = { 13, 14 };
         private static byte[] catalystCats = { 8 };
 
-        private void RandomizeOne<T>(IEnumerable<PARAM64.Row> rows, string param)
+        private void RandomizeOne<T>(IEnumerable<PARAM64.Row> rows, string param, bool plusMode = false)
         {
-            List<T> options = rows.Select(row => (T)row[param].Value).ToList();
-            foreach (PARAM64.Row row in rows)
-                row[param].Value = options.PopRandom(rand);
+            if (plusMode)
+            {
+                List<T> options = rows.Select(row => (T)row[param].Value).GroupBy(val => val).Select(group => group.First()).ToList();
+                foreach (PARAM64.Row row in rows)
+                    row[param].Value = options.GetRandom(rand);
+            }
+            else
+            {
+                List<T> options = rows.Select(row => (T)row[param].Value).ToList();
+                foreach (PARAM64.Row row in rows)
+                    row[param].Value = options.PopRandom(rand);
+            }
         }
 
         private void RandomizePair<T1, T2>(IEnumerable<PARAM64.Row> rows, string param1, string param2)
@@ -177,26 +186,26 @@ namespace Irregulator
             }
         }
 
-        private void RandomizeAll(IEnumerable<PARAM64.Row> rows)
+        private void RandomizeAll(IEnumerable<PARAM64.Row> rows, bool plusMode = false)
         {
             foreach (PARAM64.Cell cell in rows.First().Cells)
             {
                 if (cell.Type == "u8" || cell.Type == "x8")
-                    RandomizeOne<byte>(rows, cell.Name);
+                    RandomizeOne<byte>(rows, cell.Name, plusMode);
                 else if (cell.Type == "s8")
-                    RandomizeOne<sbyte>(rows, cell.Name);
+                    RandomizeOne<sbyte>(rows, cell.Name, plusMode);
                 else if (cell.Type == "u16" || cell.Type == "x16")
-                    RandomizeOne<ushort>(rows, cell.Name);
+                    RandomizeOne<ushort>(rows, cell.Name, plusMode);
                 else if (cell.Type == "s16")
-                    RandomizeOne<short>(rows, cell.Name);
+                    RandomizeOne<short>(rows, cell.Name, plusMode);
                 else if (cell.Type == "u32" || cell.Type == "x32")
-                    RandomizeOne<uint>(rows, cell.Name);
+                    RandomizeOne<uint>(rows, cell.Name, plusMode);
                 else if (cell.Type == "s32")
-                    RandomizeOne<int>(rows, cell.Name);
+                    RandomizeOne<int>(rows, cell.Name, plusMode);
                 else if (cell.Type == "f32")
-                    RandomizeOne<float>(rows, cell.Name);
+                    RandomizeOne<float>(rows, cell.Name, plusMode);
                 else if (cell.Type == "b8" || cell.Type == "b32")
-                    RandomizeOne<bool>(rows, cell.Name);
+                    RandomizeOne<bool>(rows, cell.Name, plusMode);
                 else if (cell.Type != "dummy8")
                     throw null;
             }

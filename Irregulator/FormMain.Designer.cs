@@ -42,6 +42,7 @@
             this.llbUpdate = new System.Windows.Forms.LinkLabel();
             this.lblUpdate = new System.Windows.Forms.Label();
             this.fbdGameDir = new System.Windows.Forms.FolderBrowserDialog();
+            this.cbxBulletsPlus = new System.Windows.Forms.CheckBox();
             this.cbxOther = new System.Windows.Forms.CheckBox();
             this.cbxHumans = new System.Windows.Forms.CheckBox();
             this.cbxBullets = new System.Windows.Forms.CheckBox();
@@ -65,6 +66,15 @@
             lblGameDir.Size = new System.Drawing.Size(80, 13);
             lblGameDir.TabIndex = 0;
             lblGameDir.Text = "Game Directory";
+            // 
+            // lblSeed
+            // 
+            lblSeed.AutoSize = true;
+            lblSeed.Location = new System.Drawing.Point(6, 16);
+            lblSeed.Name = "lblSeed";
+            lblSeed.Size = new System.Drawing.Size(175, 13);
+            lblSeed.TabIndex = 0;
+            lblSeed.Text = "Seed (leave blank for random seed)";
             // 
             // btnBrowse
             // 
@@ -115,6 +125,7 @@
             this.gbxOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxOptions.Controls.Add(this.cbxBulletsPlus);
             this.gbxOptions.Controls.Add(this.cbxOther);
             this.gbxOptions.Controls.Add(this.cbxHumans);
             this.gbxOptions.Controls.Add(this.cbxBullets);
@@ -131,15 +142,6 @@
             this.gbxOptions.TabIndex = 6;
             this.gbxOptions.TabStop = false;
             this.gbxOptions.Text = "Options";
-            // 
-            // lblSeed
-            // 
-            lblSeed.AutoSize = true;
-            lblSeed.Location = new System.Drawing.Point(6, 16);
-            lblSeed.Name = "lblSeed";
-            lblSeed.Size = new System.Drawing.Size(175, 13);
-            lblSeed.TabIndex = 0;
-            lblSeed.Text = "Seed (leave blank for random seed)";
             // 
             // txtStatus
             // 
@@ -180,6 +182,20 @@
             this.fbdGameDir.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.fbdGameDir.ShowNewFolderButton = false;
             // 
+            // cbxBulletsPlus
+            // 
+            this.cbxBulletsPlus.AutoSize = true;
+            this.cbxBulletsPlus.Checked = global::Irregulator.Properties.Settings.Default.BulletsPlus;
+            this.cbxBulletsPlus.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Irregulator.Properties.Settings.Default, "BulletsPlus", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbxBulletsPlus.Location = new System.Drawing.Point(86, 173);
+            this.cbxBulletsPlus.Name = "cbxBulletsPlus";
+            this.cbxBulletsPlus.Size = new System.Drawing.Size(69, 17);
+            this.cbxBulletsPlus.TabIndex = 11;
+            this.cbxBulletsPlus.Text = "No Limits";
+            this.toolTip1.SetToolTip(this.cbxBulletsPlus, "Uses a different method of randomization that will give you some pretty insane bu" +
+        "llets but also probably crash the game.");
+            this.cbxBulletsPlus.UseVisualStyleBackColor = true;
+            // 
             // cbxOther
             // 
             this.cbxOther.AutoSize = true;
@@ -216,9 +232,9 @@
             this.cbxBullets.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Irregulator.Properties.Settings.Default, "DoBullets", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.cbxBullets.Location = new System.Drawing.Point(6, 173);
             this.cbxBullets.Name = "cbxBullets";
-            this.cbxBullets.Size = new System.Drawing.Size(57, 17);
+            this.cbxBullets.Size = new System.Drawing.Size(74, 17);
             this.cbxBullets.TabIndex = 7;
-            this.cbxBullets.Text = "Bullets";
+            this.cbxBullets.Text = "Projectiles";
             this.toolTip1.SetToolTip(this.cbxBullets, "Randomizes projectile behavior");
             this.cbxBullets.UseVisualStyleBackColor = true;
             // 
@@ -365,6 +381,7 @@
         private System.Windows.Forms.Label lblUpdate;
         private System.Windows.Forms.GroupBox gbxOptions;
         private System.Windows.Forms.FolderBrowserDialog fbdGameDir;
+        private System.Windows.Forms.CheckBox cbxBulletsPlus;
     }
 }
 

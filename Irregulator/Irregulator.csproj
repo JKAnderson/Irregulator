@@ -113,4 +113,27 @@
     <Error Condition="!Exists('..\packages\Fody.3.2.12\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.2.12\build\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\Costura.Fody.3.1.6\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.3.1.6\build\Costura.Fody.props'))" />
   </Target>
+  <Target Name="PostBuildMacros">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="Targets" />
+    </GetAssemblyIdentity>
+    <ItemGroup>
+      <VersionNumber Include="@(Targets->'%(Version)')" />
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <PostBuildEventDependsOn>
+      $(PostBuildEventDependsOn);
+      PostBuildMacros;
+    </PostBuildEventDependsOn>
+    <PostBuildEvent>set "output=$(TargetDir)Irregulator @(VersionNumber)"
+if "$(ConfigurationName)" == "Release" (
+  md "%25output%25"
+  del "%25output%25"
+  xcopy "$(SolutionDir)dist\*.*" "%25output%25" /Y /I /E
+  copy "$(TargetPath)" "%25output%25\"
+  copy "$(TargetPath).config" "%25output%25\"
+  copy "$(TargetDir)$(TargetName).pdb" "%25output%25\"
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

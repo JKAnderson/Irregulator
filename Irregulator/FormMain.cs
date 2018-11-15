@@ -185,7 +185,7 @@ namespace Irregulator
                 Irregulator irreg = new Irregulator(txtSeed.Text);
                 irreg.Randomize(paramDict,
                     cbxArmor.Checked, cbxWeapons.Checked, cbxRings.Checked, cbxGoods.Checked,
-                    cbxSpells.Checked, cbxBullets.Checked, cbxHumans.Checked, cbxOther.Checked);
+                    cbxSpells.Checked, cbxBullets.Checked, cbxBulletsPlus.Checked, cbxHumans.Checked, cbxOther.Checked);
             }
             catch (Exception ex)
             {
